@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	_ "github.com/lib/pq"
+	"greenlight.darkhanomirbay/internal/data"
 	"log"
 	"net/http"
 	"os"
@@ -27,15 +28,17 @@ type config struct {
 type application struct {
 	config config
 	logger *log.Logger
+	models data.Models
 }
 
+/*migrate -path=./migrations -database=postgres://postgres:703905@localhost/greenlight?sslmode=disable*/
 func main() {
 	var cfg config
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 
-	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://greenlight:pa55word@localhost/greenlight?sslmode=disable", "PostgreSQL DSN")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://postgres:703905@localhost/greenlight?sslmode=disable", "PostgreSQL DSN")
 
 	flag.IntVar(&cfg.db.maxOpenConns, "max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "max-idle-conns", 25, "PostgreSQL max idle connections")
@@ -54,6 +57,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	srv := &http.Server{Addr: fmt.Sprintf(":%d", cfg.port),
