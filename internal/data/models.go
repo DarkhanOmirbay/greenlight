@@ -7,6 +7,7 @@ import (
 
 var (
 	ErrRecordNotFound = errors.New("record not found")
+	ErrEditConflict   = errors.New("edit conflict")
 )
 
 type Models struct {
@@ -25,7 +26,4 @@ func NewModels(db *sql.DB) Models {
 	}
 }
 
-//func NewMockModels() Models {
-//	return Models{Movies: MockMovieModel{}}
 //
-//}

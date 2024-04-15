@@ -60,7 +60,8 @@ func main() {
 		models: data.NewModels(db),
 	}
 
-	srv := &http.Server{Addr: fmt.Sprintf(":%d", cfg.port),
+	srv := &http.Server{
+		Addr:         fmt.Sprintf(":%d", cfg.port),
 		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
