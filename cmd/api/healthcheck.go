@@ -34,7 +34,6 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 	//js = append(js, '\n')
 	//w.Header().Set("Content-Type", "application/json")
 	//w.Write([]byte(js))
-
 	err := app.writeJSON(w, http.StatusOK, env, nil)
 	if err != nil {
 		//app.logger.Print(err)
